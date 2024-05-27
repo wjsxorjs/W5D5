@@ -1,3 +1,5 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
 <%@page import="am.vo.EmpVO"%>
 <%@page import="java.util.List"%>
 <%@page import="org.apache.ibatis.session.SqlSession"%>
@@ -6,9 +8,14 @@
     pageEncoding="UTF-8"%>
 <%
 
-	request.getParameter("");
+ 	String searchType = request.getParameter("s_type");
+ 	String searchValue = request.getParameter("s_value");
 
-
+	Map<String, String> s_map = new HashMap<>();
+	
+	s_map.put("searchType",searchType);
+	s_map.put("searchValue",searchValue);
+	
 	// FactoryService를 통해 SqlSession을 얻고
 	// 이를 통해 사원 목록을 가져온다.
 	SqlSession ss = FactoryService.getFactory().openSession();

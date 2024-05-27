@@ -38,7 +38,7 @@
             <button type="button" id="btn">목록</button>
             <div>
                 <select id="s_type">
-                    <option>::선택::</option>
+                    <option value="0">::선택::</option>
                     <option value="1">사번</option>
                     <option value="2">이름</option>
                     <option value="3">직종</option>
@@ -85,16 +85,22 @@
                 });
             });
 
-            $("#btn").bind("click",function(){
+            $("#s_btn").bind("click",function(){
                 
                 let s_type = $("#s_type").val();
                 let s_value = $("#s_value").val();
 
                 // 유효성검사
-                
+                s_value = clrSpace(s_value);
+
+                if(s_value.length == 0 || s_type == 0){
+                    s_type = -1;
+                    s_value = 0;
+                    $("#s_value").val("");
+                }
 
                 //전달할 파라미터 값 준비(s_type, s_value)
-                let param = "s_type=" + encodeURIComponent(s_type) + "s_value=" + encodeURIComponent(s_value);
+                let param = "s_type=" + encodeURIComponent(s_type) + "&s_value=" + encodeURIComponent(s_value);
 
 
                 $.ajax({
@@ -105,6 +111,11 @@
                     $("#t1>tbody").html(res);
                 });
             });
+
+
+            function clrSpace(str){
+            return str.replace(/^\s+|\s+|\s+$/g,"");
+        }
             
         });
     </script>
