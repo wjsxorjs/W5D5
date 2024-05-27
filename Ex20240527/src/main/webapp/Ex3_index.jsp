@@ -36,6 +36,19 @@
         </header>
         <article>
             <button type="button" id="btn">목록</button>
+            <div>
+                <select id="s_type">
+                    <option>::선택::</option>
+                    <option value="1">사번</option>
+                    <option value="2">이름</option>
+                    <option value="3">직종</option>
+                    <option value="4">부서번호</option>
+                </select>
+                <input type="text" id="s_value">
+                <button type="button" id="s_btn">검색</button>
+
+
+            </div>
 
             <table id="t1">
                 <caption>사원목록 테이블</caption>
@@ -72,6 +85,26 @@
                 });
             });
 
+            $("#btn").bind("click",function(){
+                
+                let s_type = $("#s_type").val();
+                let s_value = $("#s_value").val();
+
+                // 유효성검사
+                
+
+                //전달할 파라미터 값 준비(s_type, s_value)
+                let param = "s_type=" + encodeURIComponent(s_type) + "s_value=" + encodeURIComponent(s_value);
+
+
+                $.ajax({
+                    url:"Ex3_Search.jsp",
+                    type:"post",
+                    data: param,
+                }).done(function(res){
+                    $("#t1>tbody").html(res);
+                });
+            });
             
         });
     </script>

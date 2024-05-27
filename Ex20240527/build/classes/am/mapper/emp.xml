@@ -10,5 +10,25 @@
 	FROM emp
 </select>
 
+<!-- 검색: 동적쿼리 (어떤 컬럼에 어떤 자원으로 검색을 할 것인가) -->
+<select id="search" parameterType="Map" resultType="am.vo.EmpVO">
+	SELECT *
+	FROM emp
+	<where>
+		<choose>
+		<!-- 
+			<when test="empno != null">empno = #{empno}</when>
+			<when test="ename != null">ename LIKE concat('%',#{ename},'%')</when>
+			<when test="job != null">job LIKE concat('%',#{job},'%')</when>
+			<when test="deptno != null">deptno = #{deptno}</when>
+		 -->
+		 	<when test="searchType == 1">empno = #{searchValue}</when>
+		 	<when test="searchType == 2">ename LIKE CONCAT('%',#{searchValue},'%')</when>
+		 	<when test="searchType == 3">job LIKE CONCAT('%',#{searchValue},'%')</when>
+		 	<when test="searchType == 4">deptno = #{searchValue}</when>
+		</choose>
+	</where>
+</select>
+
 
 </mapper>
