@@ -113,7 +113,7 @@
 					<tr>
 						<td colspan="2">
 							<p class="btn">
-								<a href="javascript: reg()">등록</a>
+								<a href="javascript:reg()">등록</a>
 							</p>
 						</td>
 					</tr>
@@ -124,11 +124,110 @@
 	
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script>
+		function reg(){
+
+
+			id = clrSpace($("#s_id").val());
+			pw = clrSpace($("#s_pw").val());
+			name = clrSpace($("#s_name").val());
+			email = clrSpace($("#s_email").val());
+			
+			if(id.length<1){
+				alert("아이디를 입력해주세요.");
+				$("#s_id").val("");
+				$("#s_id").focus();
+				return;
+			}
+			if(pw.length<1){
+				alert("비밀번호를 입력해주세요.");
+				$("#s_pw").val("");
+				$("#s_pw").focus();
+				return;
+			}
+			if(name.length<1){
+				alert("이름을 입력해주세요.");
+				$("#s_name").val("");
+				$("#s_name").focus();
+				return;
+			}
+			if(email.length<1){
+				alert("이메일을 입력해주세요.");
+				$("#s_email").val("");
+				$("#s_email").focus();
+				return;
+			}
+
+
+			let phone_arr = $(".phone");
+			let phone_0 = clrSpace(phone_arr[0].value);
+			let phone_1 = clrSpace(phone_arr[1].value);
+			let phone_2 = clrSpace(phone_arr[2].value);
+			
+			if(phone_0.length<1){
+				alert("전화번호 앞자리를 입력해주세요.");
+				$(".phone")[0].value="";
+				$(".phone")[0].focus();
+				return;
+			}
+			if(phone_1.length<1){
+				alert("전화번호 가운데 자리를 입력해주세요.");
+				$(".phone")[1].value="";
+				$(".phone")[1].focus();
+				return;
+			}
+			if(phone_2.length<1){
+				alert("전화번호 뒷자리를 입력해주세요.");
+				$(".phone")[2].value="";
+				$(".phone")[2].focus();
+				return;
+			}
+
+			phone = phone_0+"-"+
+					phone_1+"-"+
+					phone_2;
+			
+			
+			let param = "m_id="+encodeURIComponent(id)+"&"+
+						"m_pw="+encodeURIComponent(pw)+"&"+
+						"m_name="+encodeURIComponent(name)+"&"+
+						"m_email="+encodeURIComponent(email)+"&"+
+						"m_phone="+encodeURIComponent(phone);
+			
+			console.log(param);
+
+			if($("#box>span.success").val() != null){
+				$.ajax({
+						url: "Ex4_Add.jsp",
+						type: "post",
+						data: param,
+					}).done(function(res){
+						alert("저장 성공");
+						$("#s_id").val("");
+						$("#s_pw").val("");
+						$("#s_name").val("");
+						$("#s_email").val("");
+						$(".phone")[0].value="";
+						$(".phone")[1].value="";
+						$(".phone")[2].value="";
+						
+					}).fail(function(res){
+						alert("저장 실패");
+					});
+			} else{
+				alert("아이디가 유효하지않습니다.");
+			}
+		}
+		
+		function clrSpace(str){
+        	return str.replace(/^\s+|\s+|\s+$/g,"");
+    	}
+
 		$(function(){
 			// 현재문서 안에 아이디가 s_id인 요소에
 			// 키보드가 누를 때마다 수행하는 함수를 이벤트로 적용하자
 			$("#s_id").bind("keyup",function(){
 				// 아이디가 s_id 요소의 값을 가져와서 변수 str에 저장
+
 				let str = $("#s_id").val().trim();
 				str = clrSpace(str);
 				if(str.length>=4){
@@ -139,15 +238,21 @@
 					}).done(function(res){
 						$("#box").html(res)
 					});
+				} else{
+					$.ajax({
+						url: "Ex4_CheckId.jsp",
+						type: "post",
+						data: "m_id=-1",
+					}).done(function(res){
+						$("#box").html(res)
+					});
 				}
 			});
 
-
-
-			function clrSpace(str){
-            return str.replace(/^\s+|\s+|\s+$/g,"");
-        }
 		});
+			
+
+		
 	</script>
 </body>
 </html>
