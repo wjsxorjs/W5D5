@@ -64,7 +64,12 @@
 		margin: 0;
 		margin-left: 3px;
 	}
+
+	div#my_win{
+		display: none;
+	}
 </style>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
 </head>
 <body>
 	<div id="wrap">
@@ -121,12 +126,46 @@
 			</table>
 		</form>
 	</div>
+
+	<div id="my_win" title="결과">
+		asdf
+	</div>
 	
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 	<script>
+		$(function(){
+			$("my_win").dialog();
+
+			// 현재문서 안에 아이디가 s_id인 요소에
+			// 키보드가 누를 때마다 수행하는 함수를 이벤트로 적용하자
+			$("#s_id").bind("keyup",function(){
+				// 아이디가 s_id 요소의 값을 가져와서 변수 str에 저장
+
+				let str = $("#s_id").val().trim();
+				str = clrSpace(str);
+				if(str.length>=4){
+					$.ajax({
+						url: "Ex4_CheckId.jsp",
+						type: "post",
+						data: "m_id="+encodeURIComponent(str),
+					}).done(function(res){
+						$("#box").html(res)
+					});
+				} else{
+					$.ajax({
+						url: "Ex4_CheckId.jsp",
+						type: "post",
+						data: "m_id=-1",
+					}).done(function(res){
+						$("#box").html(res)
+					});
+				}
+			});
+
+		});
+
 		function reg(){
-
-
 			id = clrSpace($("#s_id").val());
 			pw = clrSpace($("#s_pw").val());
 			name = clrSpace($("#s_name").val());
@@ -193,7 +232,7 @@
 						"m_email="+encodeURIComponent(email)+"&"+
 						"m_phone="+encodeURIComponent(phone);
 			
-			console.log(param);
+			// console.log(param);
 
 			if($("#box>span.success").val() != null){
 				$.ajax({
@@ -201,7 +240,9 @@
 						type: "post",
 						data: param,
 					}).done(function(res){
-						alert("저장 성공");
+						// alert("저장 성공");
+						$("#my_win").html(res.trim());
+						$("#my_win").dialog();
 						$("#s_id").val("");
 						$("#s_pw").val("");
 						$("#s_name").val("");
@@ -221,35 +262,6 @@
 		function clrSpace(str){
         	return str.replace(/^\s+|\s+|\s+$/g,"");
     	}
-
-		$(function(){
-			// 현재문서 안에 아이디가 s_id인 요소에
-			// 키보드가 누를 때마다 수행하는 함수를 이벤트로 적용하자
-			$("#s_id").bind("keyup",function(){
-				// 아이디가 s_id 요소의 값을 가져와서 변수 str에 저장
-
-				let str = $("#s_id").val().trim();
-				str = clrSpace(str);
-				if(str.length>=4){
-					$.ajax({
-						url: "Ex4_CheckId.jsp",
-						type: "post",
-						data: "m_id="+encodeURIComponent(str),
-					}).done(function(res){
-						$("#box").html(res)
-					});
-				} else{
-					$.ajax({
-						url: "Ex4_CheckId.jsp",
-						type: "post",
-						data: "m_id=-1",
-					}).done(function(res){
-						$("#box").html(res)
-					});
-				}
-			});
-
-		});
 			
 
 		

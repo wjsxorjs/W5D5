@@ -11,7 +11,14 @@
 	WHERE m_id = #{m_id}
 </select>
 
+<!-- 
 <insert id="add" parameterType="Map">
+	INSERT
+	INTO member_t(m_id,m_pw,m_name,m_email,m_phone)
+	VALUES(#{m_id},#{m_pw},UPPER(#{m_name}),#{m_email},#{m_phone})
+</insert>
+ -->
+<insert id="add" parameterType="am.vo.MemberVO">
 	INSERT
 	INTO member_t(m_id,m_pw,m_name,m_email,m_phone)
 	VALUES(#{m_id},#{m_pw},UPPER(#{m_name}),#{m_email},#{m_phone})

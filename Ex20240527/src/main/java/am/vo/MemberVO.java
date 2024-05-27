@@ -1,7 +1,7 @@
 package am.vo;
 
 public class MemberVO {
-	private String m_idx, m_id, m_name, m_email;
+	private String m_idx, m_id, m_pw, m_name, m_email, m_phone;
 
 	public void setM_idx(String m_idx) {
 		this.m_idx = m_idx;
@@ -20,6 +20,16 @@ public class MemberVO {
 	}
 
 	
+	public void setM_pw(String m_pw) {
+		this.m_pw = m_pw;
+	}
+	
+	
+	public void setM_phone(String m_phone) {
+		this.m_phone = m_phone;
+	}
+
+
 	public String getM_idx() {
 		return m_idx;
 	}
@@ -35,6 +45,14 @@ public class MemberVO {
 	public String getM_email() {
 		return m_email;
 	}
+
+
+	public String getM_pw() {
+		return m_pw;
+	}
 	
+	public String getM_phone() {
+		return m_phone;
+	}
 	
 }
